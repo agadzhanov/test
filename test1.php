@@ -10,7 +10,8 @@ function convertData (array $input)
 	'east'  => [1, 0],
 	'south' => [0, -1],
 	'west'  => [-1, 0]
-];
+    ];
+	
     $fn = function($a) use $mapping {
 	if (!isset($mapping[$a])) {
 		throw new Exception 'invalid data';
