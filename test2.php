@@ -15,11 +15,9 @@ function getname ($players, $playerIndex)
     
     --$playerIndex;
 
-    if (empty($players[$playerIndex])) {
-        throw new Exception ('Player is not found');
-    }
+    $realIndex = $playerIndex % count($players);
     
-    return $players[$playerIndex];
+    return $players[$realIndex];
 }
 
 
