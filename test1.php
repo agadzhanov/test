@@ -1,24 +1,40 @@
 <?php
-const NORTH = [0, 1];
-const EAST = [1, 0];
-const SOUTH = [0, -1];
-const WEST = [-1, 0];
 
-$nav = [WEST, WEST, EAST, EAST, SOUTH, SOUTH, SOUTH, NORTH, NORTH, NORTH];
+
+$input = ['west', 'west', 'east', 'east', 'south', 'south', 'south', 'north', 'north', 'north'];
+
+function convertData (array $input)
+{
+    static $mapping = [
+        'north' => [0, 1],
+	'east'  => [1, 0],
+	'south' => [0, -1],
+	'west'  => [-1, 0]
+];
+    $fn = function($a) use $mapping {
+	if (!isset($mapping[$a])) {
+		throw new Exception 'invalid data';
+	}
+	    
+        return $mapping[$a];
+    }
+	
+    return array_map($fn, $input);
+}
 
 function validate(array $nav)
 {
+    $steps = convertData($nav);
     $sum = [0, 0];
-    $fn = function (array $a) use $sum {
-	if (!isset($a[0]) || !isset($a[1])) {
-            throw new Exception('invalid arg');
-        }
-        $sum[0] = $a[0];
-        $sum[1] = $a[1];
+	
+    foreach ($steps as $step) {
+        $sum = array_add($sum, $a);
     }
-    return count($nav) === 10 && array_walk($nav, $fn) == [0, 0];
+	
+    return count($nav) === 10 && $sum == [0, 0];
 }
 
 header('Content-type: text/plain');
+
 echo validate($nav) ? 'valid' : 'invalid';
 
