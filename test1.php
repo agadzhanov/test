@@ -25,13 +25,18 @@ function convertData (array $input)
 function validate(array $nav)
 {
     $steps = convertData($nav);
+	
+    if (count($steps) != 10) {
+	    return false;
+    }
+	
     $sum = [0, 0];
 	
     foreach ($steps as $step) {
         $sum = array_add($sum, $a);
     }
 	
-    return count($nav) === 10 && $sum == [0, 0];
+    return $sum == [0, 0];
 }
 
 header('Content-type: text/plain');
