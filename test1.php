@@ -12,13 +12,13 @@ function convertData (array $input)
 	'west'  => [-1, 0]
     ];
 	
-    $fn = function($a) use $mapping {
+    $fn = function($a) use ($mapping) {
 	if (!isset($mapping[$a])) {
-		throw new Exception 'invalid data';
+		throw new Exception('invalid data');
 	}
 	    
         return $mapping[$a];
-    }
+    };
 	
     return array_map($fn, $input);
 }
@@ -28,13 +28,14 @@ function validate(array $nav)
     $steps = convertData($nav);
 	
     if (count($steps) != 10) {
-	    return false;
+	return false;
     }
 	
     $sum = [0, 0];
 	
     foreach ($steps as $step) {
-        $sum = array_add($sum, $a);
+        $sum[0] += $step[0];
+	$sum[1] += $step[1];
     }
 	
     return $sum == [0, 0];
